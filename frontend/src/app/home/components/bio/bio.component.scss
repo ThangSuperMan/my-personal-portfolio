@@ -1,3 +1,5 @@
+@import "../../../shared/variables";
+
 .bio {
   display: flex;
   align-items: center;
@@ -17,7 +19,6 @@
   }
 
   &__name {
-    color: #111827;
     font-size: 60px;
     font-weight: bold;
     line-height: 1;
@@ -32,7 +33,7 @@
   }
 
   &__learn-more-link {
-    color: #01796f;
+    color: $green-medium-color;
     font-size: 20px;
     text-decoration: underline;
     line-height: 1.75rem;
