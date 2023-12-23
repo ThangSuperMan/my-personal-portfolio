@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding-block: 16px;
 
   &__logo {
     font-weight: bold;
@@ -57,7 +57,7 @@
     font-weight: bold;
     color: white;
     border-radius: 8px;
-    background-image: linear-gradient(to right, #DA22FF 0%, #9733EE  51%, #DA22FF  100%);
+    background-image: linear-gradient(to right, #009ed5 0%, #01d29f  51%, #01d29f  100%);
     background-size: 200% auto;
     transition: 0.5s;
     cursor: pointer;

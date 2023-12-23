@@ -8,7 +8,7 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 import { FooterComponent } from './shared/layout/footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { ProjectsComponent } from './projects/projects.component';
-import { BioComponent } from './home/bio/bio.component';
+import { BioComponent } from './home/components/bio/bio.component';
 
 @NgModule({
   declarations: [
