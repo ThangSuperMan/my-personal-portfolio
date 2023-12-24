@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16.1-alpine
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+      - ./scripts/init-multiple-psql-databases.sh:/docker-entrypoint-initdb.d/init-multiple-psql-databases.sh
+    restart: always
+    env_file:
+      - ./.env
+
+volumes:
+  postgres_db:
