@@ -22,7 +22,7 @@ const initDatabase = () => {
   dataSource
     .initialize()
     .then(() => {
-      logger.info('Data Source has been initialized!');
+      logger.info('data Source has been initialized!');
     })
     .catch((err: any) => logger.error(err));
 };

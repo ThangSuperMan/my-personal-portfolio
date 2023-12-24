@@ -1,5 +1,4 @@
 import { fastify } from 'fastify';
-import pino from 'pino';
 import healthHandler from './modules/health/routes';
 import { getDataSource } from './services/db';
 import dotenv from 'dotenv';
@@ -27,14 +26,7 @@ const init = async () => {
 init();
 
 export default function createServer() {
-  const server = fastify({
-    logger: pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  });
-
+  const server = fastify();
   server.register(healthHandler);
 
   return server;
