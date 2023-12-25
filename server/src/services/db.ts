@@ -1,38 +1,42 @@
 import { DataSource } from 'typeorm';
-import { User } from '../entities/user.entity';
-import dotenv from 'dotenv';
-import logger from '../utils/logger';
+import * as dotenv from 'dotenv';
+import { logger } from '../utils';
+import { Post } from '../database/entity/Post';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import path from 'path';
 
+const isCompiled: boolean = path.extname(__filename).includes('js');
 dotenv.config();
+
 export const dataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
-  port: 5433,
+  port: +process.env.POSTGRES_DB_PORT,
   username: process.env.POSTGRES_DB_NAME,
   password: process.env.POSTGRES_NEW_DB_PASSWORD,
   database: process.env.POSTGRES_DB_NAME,
-  synchronize: true,
-  logger: undefined,
+  synchronize: !process.env.POSTGRES_DB_NO_SYNC,
+  logger: 'advanced-console',
   migrationsTableName: 'migrations',
-  entities: [User],
-  migrations: [],
+  namingStrategy: new SnakeNamingStrategy(),
+  entities: [Post],
+  migrations: [`src/database/migration/**/*.${isCompiled ? 'js' : 'ts'}`],
 });
 
-const initDatabase = () => {
+const initializeDatabase = () => {
   dataSource
     .initialize()
     .then(() => {
-      logger.info('data Source has been initialized!');
+      logger.info('🌴 Database connection was successful!');
     })
     .catch((err: any) => logger.error(err));
 };
 
-export const getDataSource = async (delay = 3000): Promise<DataSource> => {
-  initDatabase();
-
+export const getDataSource = async (delay = 2000): Promise<DataSource> => {
   if (dataSource.isInitialized) return Promise.resolve(dataSource);
 
   return new Promise((resolve, reject) => {
+    initializeDatabase();
     setTimeout(() => {
       if (dataSource.isInitialized) {
         resolve(dataSource);
