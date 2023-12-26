@@ -1,5 +1,6 @@
-import { DataSource } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Post } from '../database/entity/Post';
+import { logger } from '../utils';
 
 export const getPosts = async (dataSource: DataSource): Promise<Post[]> => {
   const postRepository = dataSource.getRepository(Post);
@@ -12,10 +13,18 @@ export const createPost = async (
   dataSource: DataSource,
   post: Post
 ): Promise<Post> => {
-  const postRepository = dataSource.getRepository(Post);
+  let postRepository: Repository<Post>;
+
+  try {
+    postRepository = dataSource.getRepository(Post);
+  } catch (err: any) {
+    logger.error(err);
+  }
+
   return postRepository.save(post);
 };
 
 export default {
   getPosts,
+  createPost,
 };

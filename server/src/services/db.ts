@@ -1,12 +1,12 @@
 import { DataSource } from 'typeorm';
-import * as dotenv from 'dotenv';
 import { logger } from '../utils';
 import { Post } from '../database/entity/Post';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import path from 'path';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const isCompiled: boolean = path.extname(__filename).includes('js');
-dotenv.config();
 
 export const dataSource = new DataSource({
   type: 'postgres',

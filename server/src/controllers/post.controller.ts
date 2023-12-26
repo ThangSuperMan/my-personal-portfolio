@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { formatErrorResponse } from '../utils';
-import { getDataSource } from '../services/db';
+import { formatReply, tryCatchWrapper } from '../utils';
+import { dataSource, getDataSource } from '../services/db';
 import postRepository from '../repositories/post.repository';
 import { Post } from '../database/entity/Post';
 
@@ -15,14 +15,12 @@ interface CreatePostRequest {
 }
 
 export const getAllPosts = async (req: FastifyRequest, rep: FastifyReply) => {
-  try {
+  await tryCatchWrapper(async () => {
     const dataSource = await getDataSource();
-    const posts = await postRepository.getPosts(dataSource);
-    console.log('posts :>> ', posts);
-    rep.send({ posts });
-  } catch (err: any) {
-    rep.status(500).send(formatErrorResponse(500, err));
-  }
+    const posts: Post[] = await postRepository.getPosts(dataSource);
+
+    rep.send(formatReply(200, 'Posts fetched successfully', posts));
+  }, rep);
 };
 
 export const createPost = async (
@@ -33,16 +31,18 @@ export const createPost = async (
   const { title, shortDescription, content, slug, thumbnailImageUrl } =
     req.body;
   req.body.content;
-  console.log('req.body :>> ', req.body);
-  const post = new Post(
-    title,
-    shortDescription,
-    content,
-    slug,
-    thumbnailImageUrl
-  );
+  tryCatchWrapper(async () => {
+    const post = new Post(
+      title,
+      shortDescription,
+      content,
+      slug,
+      thumbnailImageUrl
+    );
+    postRepository.createPost(dataSource, post);
 
-  rep.send({ post });
+    rep.send(formatReply(200, 'Posts fetched successfully'));
+  }, rep);
 };
 
 export default {
