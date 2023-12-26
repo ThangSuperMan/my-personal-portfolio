@@ -4,13 +4,13 @@ services:
   postgres:
     image: postgres:16.1-alpine
     ports:
-      - '5433:5432'
+      - '${POSTGRES_DB_PORT}:${POSTGRES_DB_CONTAINER_PORT}'
     volumes:
       - postgres_db:/var/lib/postgresql/data
       - ./scripts/init-multiple-psql-databases.sh:/docker-entrypoint-initdb.d/init-multiple-psql-databases.sh
     restart: always
     healthcheck:
-      test: pg_isready -p 5432
+      test: pg_isready -p ${POSTGRES_DB_CONTAINER_PORT}
       interval: 1m
       timeout: 10s
       retries: 3
