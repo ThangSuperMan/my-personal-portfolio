@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-export const checkHealth = (req: FastifyRequest, rep: FastifyReply) => {
+export const checkHealth = (_: FastifyRequest, rep: FastifyReply) => {
   rep.send({ status: 'ok' });
 };
 

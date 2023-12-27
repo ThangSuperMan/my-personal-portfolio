@@ -1,17 +1,13 @@
-export interface ErrorResponse {
-  status: number;
-  message: string;
-  data?: any;
-}
+import { ErrorReply } from '../types';
 
 export const formatReply = (
   status: number,
   message: string,
   data?: any
-): ErrorResponse => {
+): ErrorReply => {
   return {
     status: status,
     message: message,
-    data: data,
+    data: data
   };
 };

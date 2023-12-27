@@ -1,5 +1,6 @@
 import { FastifyReply } from 'fastify';
-import { logger, formatResponse } from '../utils';
+import { formatReply, logger } from '../utils';
+import { StatusCode } from '../constants';
 
 export const tryCatchWrapper = async (
   callback: () => Promise<void>,
@@ -9,6 +10,8 @@ export const tryCatchWrapper = async (
     await callback();
   } catch (err: any) {
     logger.error(err);
-    rep.status(500).send(formatResponse(500, err));
+    rep
+      .status(StatusCode.ErrorExternalSerer)
+      .send(formatReply(StatusCode.ErrorExternalSerer, err));
   }
 };
