@@ -5,5 +5,5 @@ export const checkHealth = (_: FastifyRequest, rep: FastifyReply) => {
 };
 
 export default {
-  checkHealth,
+  checkHealth
 };

@@ -1,6 +1,5 @@
-import Fastify, { FastifyInstance } from 'fastify';
-import healthRoutes from './routes/health.routes';
-import postRoutes from './routes/post.routes';
+import { FastifyInstance } from 'fastify';
+import buildServer from './server';
 import { logger } from './utils';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -10,12 +9,10 @@ if (isNaN(port)) {
   port = 4000;
 }
 
-const server: FastifyInstance = Fastify();
+const server: FastifyInstance = buildServer();
 
-server.register(healthRoutes);
-server.register(postRoutes);
-
-const start = async () => {
+const main = async () => {
+  console.log('main');
   try {
     await server.listen({ port });
     logger.info(`🚀 server is listening on port ${port}`);
@@ -25,4 +22,4 @@ const start = async () => {
   }
 };
 
-start();
+main();

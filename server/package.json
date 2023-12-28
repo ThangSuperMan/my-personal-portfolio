@@ -7,6 +7,7 @@
     "build": "tsc -w",
     "dev": "nodemon build/index.js",
     "start": "ts-node src/index.ts",
+    "test": "NODE_ENV=test tap --node-arg=--require=ts-node/register",
     "migration:create": "cd src/database/migration && typeorm migration:create",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/services/db.ts"
   },
@@ -20,6 +21,8 @@
     "nodemon": "^3.0.2",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
+    "tap": "^18.6.1",
+    "ts-mock-imports": "^1.3.8",
     "typeorm": "0.3.17",
     "typeorm-naming-strategies": "^4.1.0"
   },

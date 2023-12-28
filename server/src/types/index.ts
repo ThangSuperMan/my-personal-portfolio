@@ -1,3 +1,3 @@
 export * from './BodyPostArticleRequest';
-export * from './ParamsPostRequest';
+export * from './ParamsPostArticleRequest';
 export * from './ErrorReply';

@@ -2,25 +2,39 @@ import { DataSource } from 'typeorm';
 import { logger } from '../utils';
 import { Post } from '../database/entity/Post';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import path from 'path';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const isCompiled: boolean = path.extname(__filename).includes('js');
+const isTestENV = process.env.NODE_ENV === 'test';
+
+const getDatabaseNameBasedOnENV = (): string => {
+  if (isTestENV) {
+    return process.env.POSTGRES_DB_TEST_NAME;
+  }
+
+  return process.env.POSTGRES_DB_PRODUCTION_NAME;
+};
+
+const getDatabaseUsernameBasedOnENV = (): string => {
+  if (isTestENV) {
+    return process.env.POSTGRES_BB_TEST_USERNAME;
+  }
+
+  return process.env.POSTGRES_DB_PRODUCTION_USERNAME;
+};
 
 export const dataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
   port: +process.env.POSTGRES_DB_PORT,
-  username: process.env.POSTGRES_DB_NAME,
+  username: getDatabaseUsernameBasedOnENV(),
   password: process.env.POSTGRES_NEW_DB_PASSWORD,
-  database: process.env.POSTGRES_DB_NAME,
+  database: getDatabaseNameBasedOnENV(),
   synchronize: !process.env.POSTGRES_DB_NO_SYNC,
   logger: 'advanced-console',
   migrationsTableName: 'migrations',
   namingStrategy: new SnakeNamingStrategy(),
-  entities: [Post],
-  migrations: [`src/database/migration/**/*.${isCompiled ? 'js' : 'ts'}`],
+  entities: [Post]
 });
 
 const initializeDatabase = () => {

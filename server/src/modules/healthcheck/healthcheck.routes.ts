@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
-import healthController from '../controllers/health.controller';
+import healthController from './healthcheck.controller';
 
 const routes = async (server: FastifyInstance, _: any) => {
-  server.get('/health', healthController.checkHealth);
+  server.get('/healthcheck', healthController.checkHealth);
 };
 
 export default routes;

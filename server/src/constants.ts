@@ -1,5 +1,7 @@
-export const StatusCode = {
+export const HttpStatus = {
   Success: 200,
+  Created: 201,
+  BadRequest: 400,
   NotFound: 404,
-  ErrorExternalSerer: 500
+  ErrorExternalServer: 500
 };
