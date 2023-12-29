@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -w",
-    "dev": "nodemon build/index.js",
-    "start": "ts-node src/index.ts",
-    "test": "NODE_ENV=test tap --node-arg=--require=ts-node/register",
-    "migration:create": "cd src/database/migration && typeorm migration:create",
-    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/services/db.ts"
+    "dev": "npm run migration:run && ts-node ./src/index.ts",
+    "test": "export NODE_ENV=test && npm run migration:run && tap --node-arg=--require=ts-node/register",
+    "migration:create": "cd ./src/database/migration && typeorm migration:create",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/services/db.ts",
+    "typeorm": "typeorm-ts-node-commonjs"
   },
   "keywords": [],
   "author": "",

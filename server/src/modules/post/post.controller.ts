@@ -15,9 +15,7 @@ export const getAllPosts = async (req: FastifyRequest, rep: FastifyReply) => {
       rep.send(formatReply(HttpStatus.Success, 'Posts fetched successfully', { posts }));
     }
 
-    rep
-      .status(HttpStatus.NotFound)
-      .send(formatReply(HttpStatus.NotFound, 'Posts not found', { posts }));
+    rep.status(HttpStatus.NotFound).send(formatReply(HttpStatus.NotFound, 'Posts not found'));
   }, rep);
 };
 

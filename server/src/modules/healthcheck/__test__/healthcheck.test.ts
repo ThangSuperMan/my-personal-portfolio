@@ -1,7 +1,7 @@
 import { test } from 'tap';
 import buildServer from '../../../server';
 
-test('requests the `healthcheck` route', async (t) => {
+test('GET `healthcheck` - status should be ok', async (t) => {
   const server = buildServer();
 
   t.teardown(() => {

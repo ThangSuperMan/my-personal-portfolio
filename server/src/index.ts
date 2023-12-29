@@ -12,7 +12,6 @@ if (isNaN(port)) {
 const server: FastifyInstance = buildServer();
 
 const main = async () => {
-  console.log('main');
   try {
     await server.listen({ port });
     logger.info(`🚀 server is listening on port ${port}`);
