@@ -25,7 +25,7 @@ const getDatabaseUsernameBasedOnENV = (): string => {
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
+  host: process.env.POSTGRES_DB_HOST,
   port: +process.env.POSTGRES_DB_PORT,
   username: getDatabaseUsernameBasedOnENV(),
   password: process.env.POSTGRES_NEW_DB_PASSWORD,
@@ -34,7 +34,8 @@ export const dataSource = new DataSource({
   logger: 'advanced-console',
   migrationsTableName: 'migrations',
   namingStrategy: new SnakeNamingStrategy(),
-  entities: [Post]
+  entities: [Post],
+  migrations: ['src/database/migration/*.ts']
 });
 
 const initializeDatabase = () => {
