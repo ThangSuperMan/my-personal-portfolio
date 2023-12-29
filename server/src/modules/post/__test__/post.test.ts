@@ -35,7 +35,6 @@ const isMatchPostArticle = (expectedPost: Post, actualPost: any): boolean => {
 };
 
 const setupDatabaseData = async () => {
-  logger.info('Setup database data');
   const dataSource = await getDataSource();
   const customPostRepository = dataSource.getRepository(Post);
   await customPostRepository.clear();
@@ -48,17 +47,17 @@ test('POST `/api/v1/post` - create post successfully with database', async (t) =
   });
 
   const server = buildServer();
+  const post = post1;
 
   const response = await server.inject({
     method: 'POST',
     url: '/api/v1/post',
-    payload: post1
+    payload: post
   });
 
   const json = response.json();
   t.equal(response.statusCode, 201);
   t.equal(response.headers['content-type'], 'application/json; charset=utf-8');
-  const post = post1;
   t.match(json, formatReply(201, 'Post created successfully', { post }));
 });
 

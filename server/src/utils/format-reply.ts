@@ -4,7 +4,6 @@ export const formatReply = (status: number, message: string, data?: any): ErrorR
   return {
     status: status,
     message: message,
-    // data: { posts: data }
     data: data
   };
 };
