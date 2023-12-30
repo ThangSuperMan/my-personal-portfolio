@@ -1,7 +1,7 @@
 import buildServer from '../../../server';
 import { test } from 'tap';
 import { Post } from '../../../database/entity/Post';
-import { formatReply, logger } from '../../../utils';
+import { formatReply } from '../../../utils';
 import { getDataSource } from '../../../services/db';
 
 const POSTS_TOTAL: number = 2;
@@ -36,12 +36,12 @@ const isMatchPostArticle = (expectedPost: Post, actualPost: any): boolean => {
 
 const setupDatabaseData = async () => {
   const dataSource = await getDataSource();
-  const customPostRepository = dataSource.getRepository(Post);
-  await customPostRepository.clear();
-  await customPostRepository.createQueryBuilder().insert().into(Post).values(posts).execute();
+  const postRepository = dataSource.getRepository(Post);
+  await postRepository.clear();
+  await postRepository.createQueryBuilder().insert().into(Post).values(posts).execute();
 };
 
-test('POST `/api/v1/post` - create post successfully with database', async (t) => {
+test('POST `/api/v1/post` - create post successfully', async (t) => {
   t.teardown(async () => {
     server.close();
   });
@@ -61,7 +61,7 @@ test('POST `/api/v1/post` - create post successfully with database', async (t) =
   t.match(json, formatReply(201, 'Post created successfully', { post }));
 });
 
-test('POST `/api/v1/post` - fetch all posts successfully with database', async (t) => {
+test('POST `/api/v1/post` - fetch all posts successfully', async (t) => {
   const server = buildServer();
 
   await setupDatabaseData();
@@ -88,4 +88,58 @@ test('POST `/api/v1/post` - fetch all posts successfully with database', async (
   t.equal(response.headers['content-type'], 'application/json; charset=utf-8');
   t.equal(json.data.posts.length, POSTS_TOTAL);
   t.equal(isMatch, true);
+});
+
+test('GET `/api/v1/post/:id` - fetch a specific post successfully', async (t) => {
+  const server = buildServer();
+  const dataSource = await getDataSource();
+  const postRepository = dataSource.getRepository(Post);
+  const latestPost: Post = await postRepository
+    .createQueryBuilder('posts')
+    .orderBy('posts.id', 'DESC')
+    .take(1)
+    .getOne();
+
+  t.teardown(async () => {
+    server.close();
+  });
+
+  const response = await server.inject({
+    method: 'GET',
+    url: `/api/v1/posts/${latestPost.id}`
+  });
+  const json = response.json();
+  let isMatch: boolean = isMatchPostArticle(latestPost, json.data.post);
+
+  t.equal(response.statusCode, 200);
+  t.equal(response.headers['content-type'], 'application/json; charset=utf-8');
+  t.equal(isMatch, true);
+});
+
+test('POST `/api/v1/post/:id` - update post successfully', async (t) => {
+  const server = buildServer();
+  const dataSource = await getDataSource();
+  const postRepository = dataSource.getRepository(Post);
+  const latestPost: Post = await postRepository
+    .createQueryBuilder('posts')
+    .orderBy('posts.id', 'DESC')
+    .take(1)
+    .getOne();
+
+  t.teardown(async () => {
+    server.close();
+  });
+
+  const response = await server.inject({
+    method: 'POST',
+    url: `/api/v1/post/${latestPost.id}`,
+    payload: {
+      title: 'Updated title'
+    }
+  });
+  const json = response.json();
+
+  t.equal(response.statusCode, 200);
+  t.equal(response.headers['content-type'], 'application/json; charset=utf-8');
+  t.match(json, formatReply(200, 'Post updated successfully'));
 });
