@@ -3,6 +3,7 @@
   "tabWidth": 2,
   "semi": true,
   "printWidth": 100,
+  "tralingComma": "all",
   "overrides": [
     {
       "files": "*.html",
@@ -10,5 +11,5 @@
         "parser": "angular"
       }
     }
-  ],
+  ]
 }

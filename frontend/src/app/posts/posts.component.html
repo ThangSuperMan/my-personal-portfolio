@@ -1,1 +1,18 @@
-<div>Posts page</div>
+<div class="posts">
+  <h1 class="posts__title">Posts</h1>
+  <div *ngIf="posts.length > 0; else render_no_posts_message">
+    <div class="post" *ngFor="let post of posts">
+      <div>
+        <h3 class="post__title">{{ post.title }}</h3>
+        <p class="post__short-description">
+          {{ post.shortDescription }}
+        </p>
+        <time class="post_created-at">{{ post.createdAt | date: 'mediumDate' }}</time>
+      </div>
+      <img class="post__img" src="{{ post.thumbnailImageUrl }}" />
+    </div>
+  </div>
+  <ng-template #render_no_posts_message>
+    <h4 class="posts__no-posts-message">There are no posts</h4>
+  </ng-template>
+</div>

@@ -1,0 +1,50 @@
+.posts {
+  width: 100%;
+
+  > div {
+    display: flex;
+    align-self: center;
+    gap: 32px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  > h1 {
+    font-size: 48px;
+    text-align: center;
+    margin-top: 96px;
+    margin-bottom: 48px;
+  }
+
+  &__no-posts-message {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .post {
+    width: calc(50% - 16px);
+    background: #f2fdfa;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 24px;
+    --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+      0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+      var(--tw-shadow);
+
+    &__short-description {
+      margin-top: 20px;
+      font-size: 12px;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    &__img {
+      width: 268px;
+      height: 150px;
+      border-radius: 8px;
+    }
+  }
+}

@@ -1,7 +1,9 @@
 export default interface Post {
+  id?: number;
   title: string;
-  body: string;
-  image_url: string;
-  created_at: string;
+  shortDescription: string;
+  content: string;
+  slug: string;
+  thumbnailImageUrl: string;
+  createdAt?: Date;
 }
-
