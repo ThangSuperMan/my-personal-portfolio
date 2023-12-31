@@ -11,10 +11,10 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<Post> {
-    return this.http.get<Post>(`${environment.apiUrl}/api/v1/posts`);
+    return this.http.get<Post>(`${environment.API_BASE_URL}/api/v1/posts`);
   }
 
   getPost(id: number): Observable<Post> {
-    return this.http.get<Post>(`${environment.apiUrl}/api/v1/posts${id}`);
+    return this.http.get<Post>(`${environment.API_BASE_URL}/api/v1/posts${id}`);
   }
 }

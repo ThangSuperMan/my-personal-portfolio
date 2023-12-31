@@ -17,5 +17,14 @@ services:
     env_file:
       - ./.env
 
+  frontend-app:
+    build:
+      context: ./frontend
+    image: frontend-personal-portolio:v1.0
+    ports:
+      - '80:80'
+    depends_on:
+      - postgres
+
 volumes:
   postgres_db:

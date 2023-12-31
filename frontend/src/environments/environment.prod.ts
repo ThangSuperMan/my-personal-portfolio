@@ -1,4 +1,3 @@
 export const environment = {
-  title: 'Production Environment Heading',
-  apiURL: 'https://apiexample.com',
+  API_BASE_URL: 'https://apiexample.com',
 };
