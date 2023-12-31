@@ -1,4 +1,4 @@
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { Post } from '../../database/entity/Post';
 
 export const getPosts = async (dataSource: DataSource): Promise<Post[]> => {
@@ -26,9 +26,10 @@ export const updatePostById = async (dataSource: DataSource, id: number, post: P
   postRepository.update({ id }, { ...post });
 };
 
-export const deletePostById = async (dataSource: DataSource, id: number) => {
+export const deletePostById = async (dataSource: DataSource, id: number): Promise<DeleteResult> => {
   const postRepository: Repository<Post> = dataSource.getRepository(Post);
-  postRepository.delete({ id });
+  const deleteResult = await postRepository.delete({ id });
+  return deleteResult;
 };
 
 export default {

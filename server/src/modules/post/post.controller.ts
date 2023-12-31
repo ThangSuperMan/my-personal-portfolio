@@ -75,7 +75,12 @@ export const deletePost = async (
   const postId: number = req.params.id;
   await tryCatchWrapper(async () => {
     const dataSource = await getDataSource();
-    await postRepository.deletePostById(dataSource, postId);
+    const deleteResult = await postRepository.deletePostById(dataSource, postId);
+
+    const isPostDeleted = deleteResult.affected === 1;
+    if (!isPostDeleted) {
+      rep.send(formatReply(HttpStatus.NotFound, 'Post not found'));
+    }
 
     rep.send(formatReply(HttpStatus.Success, 'Post deleted successfully'));
   }, rep);
